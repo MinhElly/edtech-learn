@@ -2,15 +2,12 @@ import { useEffect, useState } from "react";
 import type { Pizza } from "../model/pizza.model";
 import CardItem from "../components/CardItem";
 import ItemPizza from "../components/ItemPizza";
+import { Course } from "../model/course.model";
 
 const HomePage = () => {
 
-    const [pizzas, setPizzas] = useState<Pizza[]>([
-        {id: 1, title: "Pizza thit bam", description: "Thit bam sot ca chua"},
-        {id: 2, title: "Pizza thit bo", description: "Thit bo sot vang"},
-        {id: 3, title: "Pizza thit ga", description: "Thit ga sot xanh"},
-    ])
-
+    const [pizzas, setPizzas] = useState<Pizza[]>([])
+    const [courses, setCourses] = useState<Course[]>([]);
     const handleRemovePizza = (id: number) => {
         const indexPizza = pizzas.findIndex(item => item.id === id);
         let newPizzas = [...pizzas];
@@ -24,15 +21,20 @@ const HomePage = () => {
         setPizzas([...pizzas, {id: 4, title: "Pizza thit heo", description: "Thit heo sot vang"}])
     }, [count]);
 
-    
+    useEffect(() => {
+        fetch('http://localhost:3000/api/courses')
+        .then(res => res.json())
+        .then(data => setCourses(data))
+    }, []);
+
   return (
     <>
     {console.log('render template')}
     <div style={{  height: "calc(100vh - 309px)", padding: "4rem 4rem", overflowY: "auto"}}>
       <div className="wrapper-card-items">
         {
-            pizzas.map(item =>
-                 <CardItem key={item.id} id ={item.id} title={item.title} description={item.description} handleRemovePizza={handleRemovePizza} />)
+            courses.map(item =>
+                 <CardItem key={item.courseId} courseId={item.courseId} title={item.title} description={item.description} thumbnailUrl={item.thumbnailUrl} />)
         }
         <button onClick={() => setCount(count + 1)}>Increase</button>
         

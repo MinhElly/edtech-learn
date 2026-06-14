@@ -1,14 +1,9 @@
-import PizzaImg from "../assets/pizza.png";
-import type { Pizza } from "../model/pizza.model";
-
-type Props = Pizza &{
-    handleRemovePizza?: (id: number) => void;
-};
-
-const CardItem = ({ id,title, description, handleRemovePizza }: Props) => {
+import { Course } from "../model/course.model";
+type Props = Course;
+const CardItem = ({ title, description, thumbnailUrl }: Props) => {
   return (
-    <div className="card-items" onClick={() => handleRemovePizza(id!)}>
-      <img className="card-image-pizza" src={PizzaImg} alt="Pizza" />
+    <div className="card-items" >
+      <img className="card-image-pizza" src={thumbnailUrl} alt="Pizza" />
       <div style={{ height: "50%", width: "100%" }}></div>
       <div className="card-content">
         <div>
